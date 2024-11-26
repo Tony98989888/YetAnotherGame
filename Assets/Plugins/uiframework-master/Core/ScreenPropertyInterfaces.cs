@@ -1,12 +1,14 @@
 ﻿namespace deVoid.UIFramework
 {
     /// <summary>
-    /// Base interface for all the screen properties
+    ///     Base interface for all the screen properties
     /// </summary>
-    public interface IScreenProperties { }
+    public interface IScreenProperties
+    {
+    }
 
     /// <summary>
-    /// Base interface for all Panel properties
+    ///     Base interface for all Panel properties
     /// </summary>
     public interface IPanelProperties : IScreenProperties
     {
@@ -14,7 +16,7 @@
     }
 
     /// <summary>
-    /// Base interface for Window properties.
+    ///     Base interface for Window properties.
     /// </summary>
     public interface IWindowProperties : IScreenProperties
     {

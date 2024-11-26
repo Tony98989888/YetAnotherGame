@@ -1,14 +1,16 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
 
-namespace deVoid.UIFramework {
+namespace deVoid.UIFramework
+{
     /// <summary>
-    /// Screens use ATransitionComponents to animate their in and out transitions.
-    /// This can be extended to use Lerps, animations etc.
+    ///     Screens use ATransitionComponents to animate their in and out transitions.
+    ///     This can be extended to use Lerps, animations etc.
     /// </summary>
-    public abstract class ATransitionComponent : MonoBehaviour {
+    public abstract class ATransitionComponent : MonoBehaviour
+    {
         /// <summary>
-        /// Animate the specified target transform and execute CallWhenFinished when the animation is done.
+        ///     Animate the specified target transform and execute CallWhenFinished when the animation is done.
         /// </summary>
         /// <param name="target">Target transform.</param>
         /// <param name="callWhenFinished">Delegate to be called when animation is finished.</param>

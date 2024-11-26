@@ -1,24 +1,21 @@
-﻿using UnityEngine;
-using System;
+﻿using System;
+using UnityEngine;
 
 namespace deVoid.UIFramework
 {
     /// <summary>
-    /// Base implementation for UI Screens. You'll probably want to inherit
-    /// from one of its child classes: AWindowController or APanelController, not this.
-    /// <seealso cref="AWindowController"/>
-    /// <seealso cref="APanelController"/>
+    ///     Base implementation for UI Screens. You'll probably want to inherit
+    ///     from one of its child classes: AWindowController or APanelController, not this.
+    ///     <seealso cref="AWindowController" />
+    ///     <seealso cref="APanelController" />
     /// </summary>
     public abstract class AUIScreenController<TProps> : MonoBehaviour, IUIScreenController
         where TProps : IScreenProperties
     {
-        [Header("Screen Animations")] 
-        [Tooltip("Animation that shows the screen")] 
-        [SerializeField]
+        [Header("Screen Animations")] [Tooltip("Animation that shows the screen")] [SerializeField]
         private ATransitionComponent animIn;
 
-        [Tooltip("Animation that hides the screen")] 
-        [SerializeField]
+        [Tooltip("Animation that hides the screen")] [SerializeField]
         private ATransitionComponent animOut;
 
         [Header("Screen properties")]
@@ -28,65 +25,32 @@ namespace deVoid.UIFramework
         private TProps properties;
 
         /// <summary>
-        /// Unique identifier for this ID. If using the default system, it should be the same name as the screen's Prefab.
-        /// </summary>
-        public string ScreenId { get; set; }
-
-        /// <summary>
-        /// Transition component for the showing up animation
+        ///     Transition component for the showing up animation
         /// </summary>
         public ATransitionComponent AnimIn
         {
-            get { return animIn; }
-            set { animIn = value; }
+            get => animIn;
+            set => animIn = value;
         }
 
         /// <summary>
-        /// Transition component for the hiding animation
+        ///     Transition component for the hiding animation
         /// </summary>
         public ATransitionComponent AnimOut
         {
-            get { return animOut; }
-            set { animOut = value; }
+            get => animOut;
+            set => animOut = value;
         }
 
         /// <summary>
-        /// Occurs when "in" transition is finished.
-        /// </summary>
-        public Action<IUIScreenController> InTransitionFinished { get; set; }
-
-        /// <summary>
-        /// Occurs when "out" transition is finished.
-        /// </summary>
-        public Action<IUIScreenController> OutTransitionFinished { get; set; }
-
-        /// <summary>
-        /// Screen can fire this event to request its responsible layer to close it
-        /// </summary>
-        /// <value>The close request.</value>
-        public Action<IUIScreenController> CloseRequest { get; set; }
-
-        /// <summary>
-        /// If this screen is destroyed for some reason, it must warn its layer
-        /// </summary>
-        /// <value>The destruction action.</value>
-        public Action<IUIScreenController> ScreenDestroyed { get; set; }
-
-        /// <summary>
-        /// Is this screen currently visible?
-        /// </summary>
-        /// <value><c>true</c> if visible; otherwise, <c>false</c>.</value>
-        public bool IsVisible { get; private set; }
-
-        /// <summary>
-        /// The properties of this screen. Can contain
-        /// serialized values, or passed in private values.
+        ///     The properties of this screen. Can contain
+        ///     serialized values, or passed in private values.
         /// </summary>
         /// <value>The properties.</value>
         protected TProps Properties
         {
-            get { return properties; }
-            set { properties = value; }
+            get => properties;
+            set => properties = value;
         }
 
         protected virtual void Awake()
@@ -96,10 +60,7 @@ namespace deVoid.UIFramework
 
         protected virtual void OnDestroy()
         {
-            if (ScreenDestroyed != null)
-            {
-                ScreenDestroyed(this);
-            }
+            if (ScreenDestroyed != null) ScreenDestroyed(this);
 
             InTransitionFinished = null;
             OutTransitionFinished = null;
@@ -109,56 +70,40 @@ namespace deVoid.UIFramework
         }
 
         /// <summary>
-        /// For setting up all the listeners for events/messages. By default, called on Awake()
+        ///     Unique identifier for this ID. If using the default system, it should be the same name as the screen's Prefab.
         /// </summary>
-        protected virtual void AddListeners()
-        {
-        }
+        public string ScreenId { get; set; }
 
         /// <summary>
-        /// For removing all the listeners for events/messages. By default, called on OnDestroy()
+        ///     Occurs when "in" transition is finished.
         /// </summary>
-        protected virtual void RemoveListeners()
-        {
-        }
+        public Action<IUIScreenController> InTransitionFinished { get; set; }
 
         /// <summary>
-        /// When Properties are set for this screen, this method is called.
-        /// At this point, you can safely access Properties.
+        ///     Occurs when "out" transition is finished.
         /// </summary>
-        protected virtual void OnPropertiesSet()
-        {
-        }
+        public Action<IUIScreenController> OutTransitionFinished { get; set; }
 
         /// <summary>
-        /// When the screen animates out, this is called
-        /// immediately 
+        ///     Screen can fire this event to request its responsible layer to close it
         /// </summary>
-        protected virtual void WhileHiding()
-        {
-        }
+        /// <value>The close request.</value>
+        public Action<IUIScreenController> CloseRequest { get; set; }
 
         /// <summary>
-        /// When setting the properties, this method is called.
-        /// This way, you can extend the usage of your properties by
-        /// certain conditions.
+        ///     If this screen is destroyed for some reason, it must warn its layer
         /// </summary>
-        /// <param name="props">Properties.</param>
-        protected virtual void SetProperties(TProps props)
-        {
-            properties = props;
-        }
+        /// <value>The destruction action.</value>
+        public Action<IUIScreenController> ScreenDestroyed { get; set; }
 
         /// <summary>
-        /// In case your screen has any special behaviour to be called
-        /// when the hierarchy is adjusted
+        ///     Is this screen currently visible?
         /// </summary>
-        protected virtual void HierarchyFixOnShow()
-        {
-        }
+        /// <value><c>true</c> if visible; otherwise, <c>false</c>.</value>
+        public bool IsVisible { get; private set; }
 
         /// <summary>
-        /// Hides the screen
+        ///     Hides the screen
         /// </summary>
         /// <param name="animate">Should animation be played? (defaults to true)</param>
         public void Hide(bool animate = true)
@@ -168,7 +113,7 @@ namespace deVoid.UIFramework
         }
 
         /// <summary>
-        /// Show this screen with the specified properties.
+        ///     Show this screen with the specified properties.
         /// </summary>
         /// <param name="props">The data for the screen.</param>
         public void Show(IScreenProperties props = null)
@@ -177,7 +122,7 @@ namespace deVoid.UIFramework
             {
                 if (props is TProps)
                 {
-                    SetProperties((TProps) props);
+                    SetProperties((TProps)props);
                 }
                 else
                 {
@@ -196,11 +141,57 @@ namespace deVoid.UIFramework
             }
             else
             {
-                if (InTransitionFinished != null)
-                {
-                    InTransitionFinished(this);
-                }
+                if (InTransitionFinished != null) InTransitionFinished(this);
             }
+        }
+
+        /// <summary>
+        ///     For setting up all the listeners for events/messages. By default, called on Awake()
+        /// </summary>
+        protected virtual void AddListeners()
+        {
+        }
+
+        /// <summary>
+        ///     For removing all the listeners for events/messages. By default, called on OnDestroy()
+        /// </summary>
+        protected virtual void RemoveListeners()
+        {
+        }
+
+        /// <summary>
+        ///     When Properties are set for this screen, this method is called.
+        ///     At this point, you can safely access Properties.
+        /// </summary>
+        protected virtual void OnPropertiesSet()
+        {
+        }
+
+        /// <summary>
+        ///     When the screen animates out, this is called
+        ///     immediately
+        /// </summary>
+        protected virtual void WhileHiding()
+        {
+        }
+
+        /// <summary>
+        ///     When setting the properties, this method is called.
+        ///     This way, you can extend the usage of your properties by
+        ///     certain conditions.
+        /// </summary>
+        /// <param name="props">Properties.</param>
+        protected virtual void SetProperties(TProps props)
+        {
+            properties = props;
+        }
+
+        /// <summary>
+        ///     In case your screen has any special behaviour to be called
+        ///     when the hierarchy is adjusted
+        /// </summary>
+        protected virtual void HierarchyFixOnShow()
+        {
         }
 
         private void DoAnimation(ATransitionComponent caller, Action callWhenFinished, bool isVisible)
@@ -208,17 +199,11 @@ namespace deVoid.UIFramework
             if (caller == null)
             {
                 gameObject.SetActive(isVisible);
-                if (callWhenFinished != null)
-                {
-                    callWhenFinished();
-                }
+                if (callWhenFinished != null) callWhenFinished();
             }
             else
             {
-                if (isVisible && !gameObject.activeSelf)
-                {
-                    gameObject.SetActive(true);
-                }
+                if (isVisible && !gameObject.activeSelf) gameObject.SetActive(true);
 
                 caller.Animate(transform, callWhenFinished);
             }
@@ -228,10 +213,7 @@ namespace deVoid.UIFramework
         {
             IsVisible = true;
 
-            if (InTransitionFinished != null)
-            {
-                InTransitionFinished(this);
-            }
+            if (InTransitionFinished != null) InTransitionFinished(this);
         }
 
         private void OnTransitionOutFinished()
@@ -239,10 +221,7 @@ namespace deVoid.UIFramework
             IsVisible = false;
             gameObject.SetActive(false);
 
-            if (OutTransitionFinished != null)
-            {
-                OutTransitionFinished(this);
-            }
+            if (OutTransitionFinished != null) OutTransitionFinished(this);
         }
     }
 }
