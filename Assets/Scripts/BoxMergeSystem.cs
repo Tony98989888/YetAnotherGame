@@ -1,13 +1,11 @@
-using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class BoxMergeSystem : MonoBehaviour
 {
     [SerializeField] private Box boxPrefab;
-    
-    private HashSet<Box> mergingBoxes = new HashSet<Box>();
+
+    private readonly HashSet<Box> mergingBoxes = new();
 
     public void MergeBoxes(Box boxA, Box boxB)
     {
@@ -24,8 +22,8 @@ public class BoxMergeSystem : MonoBehaviour
         }
 
         var spawnPosition = CalculateSpawnPosition(boxA, boxB);
-        Box newBox = CreateMergeBox(spawnPosition, boxA.Number + boxB.Number);
-        
+        var newBox = CreateMergeBox(spawnPosition, boxA.Number + boxB.Number);
+
         CleanUpBoxes(boxA, boxB);
     }
 
@@ -36,7 +34,7 @@ public class BoxMergeSystem : MonoBehaviour
 
     private Box CreateMergeBox(Vector3 spawnPosition, int newNumber)
     {
-        Box newBox = Instantiate(boxPrefab, spawnPosition, Quaternion.identity);
+        var newBox = Instantiate(boxPrefab, spawnPosition, Quaternion.identity);
         newBox.Initialize(newNumber);
         return newBox;
     }
@@ -45,9 +43,8 @@ public class BoxMergeSystem : MonoBehaviour
     {
         mergingBoxes.Remove(boxA);
         mergingBoxes.Remove(boxB);
-        
+
         Destroy(boxA.gameObject);
         Destroy(boxB.gameObject);
     }
-
 }

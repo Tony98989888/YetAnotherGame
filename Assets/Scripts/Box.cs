@@ -1,41 +1,53 @@
-using System;
 using TMPro;
 using UnityEngine;
 
 public class Box : MonoBehaviour
 {
-    [SerializeField] private TMP_Text m_displayNumber;
-    BoxMergeSystem m_boxMergeSystem;
-    [SerializeField]
-    private int m_number;
+    [SerializeField] private TMP_Text displayName;
+    [SerializeField] private int number;
 
-    private bool m_isMergeable;
-    public bool IsMergeable => m_isMergeable;
 
-    public int Number => m_number;
+    [SerializeField] private bool isMergeable = true;
+
+
+    private BoxMergeSystem boxMergeSystem;
+    public bool IsMergeable => isMergeable;
+
+
+    public int Number => number;
+
+    private void Awake()
+    {
+        boxMergeSystem = FindObjectOfType<BoxMergeSystem>();
+        if (boxMergeSystem == null) Debug.LogError("Box Merge System Not Found");
+    }
 
     private void Start()
     {
-        m_boxMergeSystem = FindObjectOfType<BoxMergeSystem>();
-        m_displayNumber.text = Number.ToString();
-        m_isMergeable = true;
+        UpdateDisplay();
     }
 
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        if (!isMergeable) return;
+
         var otherBox = other.gameObject.GetComponent<Box>();
-        if (otherBox != null && m_isMergeable && otherBox.IsMergeable)
+        if (otherBox != null && otherBox.isMergeable)
         {
-            Debug.Log("Merge Boxes");
-            m_boxMergeSystem.MergeBoxes(this, otherBox);
-            m_isMergeable = false;
+            boxMergeSystem.MergeBoxes(this, otherBox);
+            isMergeable = false;
         }
+    }
+
+    private void UpdateDisplay()
+    {
+        displayName.text = Number.ToString();
     }
 
     public void Initialize(int num)
     {
-        m_number = num;
-        m_displayNumber.text = Number.ToString();
+        number = num;
+        displayName.text = Number.ToString();
     }
 }
