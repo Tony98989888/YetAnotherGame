@@ -28,14 +28,27 @@ public class PlayerController : MonoBehaviour
     {
         playerMovementData.moveInput.x = Input.GetAxisRaw("Horizontal");
         playerMovementData.moveInput.y = Input.GetAxisRaw("Vertical");
+        
+        playerMovementData.jumpBtnTriggered = Input.GetKeyDown(KeyCode.Space);
         Debug.Log(playerMovementData.moveInput);
     }
 
     private void FixedUpdate()
     {
         CheckGrounded();
+        
+        Jump();
         Move();
         UpdateGravity();
+    }
+
+    private void Jump()
+    {
+        if (playerMovementStatus.isGrounded && playerMovementData.jumpBtnTriggered)
+        {
+            var jumpVelocity = playerMovementData.jumpVelocity;
+            _rb2d.velocity = new Vector2(_rb2d.velocity.x, jumpVelocity);
+        }
     }
 
     private void Move()

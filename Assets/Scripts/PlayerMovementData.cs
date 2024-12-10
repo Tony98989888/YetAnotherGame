@@ -20,4 +20,8 @@ public class PlayerMovementData : ScriptableObject
     public float fallAcceleration;
 
     public float maxFallSpeed;
+
+    public bool jumpBtnTriggered;
+
+    public float jumpVelocity;
 }
