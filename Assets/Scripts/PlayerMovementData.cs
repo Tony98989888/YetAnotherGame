@@ -9,4 +9,15 @@ public class PlayerMovementData : ScriptableObject
     public float runDeceleration;
 
     [Header("Movement Data")] public float runMaxSpeed;
+    
+    
+    [Header("Layer Data")] public LayerMask groundLayer;
+    
+    [Header("Gravity Data")] public float gravityScale;
+
+    public float fallSpeed;
+    
+    public float fallAcceleration;
+
+    public float maxFallSpeed;
 }
